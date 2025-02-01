@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 
+// Define a structure for a batsman
 typedef struct {
     int runs;
     int isOut;
@@ -8,6 +9,7 @@ typedef struct {
 } Batsman;
 
 int main() {
+    // Initialize an array of batsmen with initial values
     Batsman batsmen[11] = {
         {0, 0, "Batsman 1"}, {0, 0, "Batsman 2"}, {0, 0, "Batsman 3"},
         {0, 0, "Batsman 4"}, {0, 0, "Batsman 5"}, {0, 0, "Batsman 6"},
@@ -15,20 +17,26 @@ int main() {
         {0, 0, "Batsman 10"}, {0, 0, "Batsman 11"}
     };
     
-    int striker = 0;
-    int nonStriker = 1;
-    int totalRuns = 0;
-    int wickets = 0;
-    int overs = 0;
-    int balls = 0;
-    int nextBatsman = 2;
-    int maxOvers = 20;
+    int striker = 0;     // Index of the current striker
+    int nonStriker = 1;  // Index of the current non-striker
+    int totalRuns = 0;   // Total runs scored
+    int wickets = 0;     // Total wickets fallen
+    int overs = 0;       // Total overs bowled
+    int balls = 0;       // Total balls bowled in the current over
+    int nextBatsman = 2; // Index of the next batsman to come
+    int maxOvers = 20;   // Maximum number of overs in the innings
 
-    printf("Cricket Score Board\n");
-    printf("-------------------\n");
+    // Display the header for the scoreboard
+    printf("                                                                                                                          \n ");
+    printf("                                                                                                                           \n");
+
+    printf("                                                   -------------------\n");
+
+    printf("___________________________________________________Cricket Score Board_________________________________________________________\n");
+    printf("                                                   -------------------\n");
 
     while(1) {
-        // Display scoreboard
+        // Display current score and overs
         printf("\nCurrent Score: %d/%d", totalRuns, wickets);
         printf("\tOvers: %d.%d\n", overs, balls);
         
@@ -45,15 +53,18 @@ int main() {
                batsmen[nonStriker].runs,
                batsmen[nonStriker].isOut ? "(out)" : "");
 
+        // Display options for the user
         printf("\n1. Add runs\n2. Add wicket\n3. Add ball\n4. Exit\n");
         printf("Enter your choice: ");
         int choice;
         scanf("%d", &choice);
 
+        // Exit the loop if user chooses to exit
         if (choice == 4) break;
 
         switch(choice) {
             case 1: {
+                // Add runs to the striker's score and total runs
                 int runs;
                 printf("Enter runs scored (0-6): ");
                 scanf("%d", &runs);
@@ -77,6 +88,7 @@ int main() {
                 break;
             }
             case 2:
+                // Add a wicket and update the striker
                 if (wickets >= 10) {
                     printf("All out! No more wickets.\n");
                     break;
@@ -94,10 +106,12 @@ int main() {
                 break;
                 
             case 3:
+                // Add a ball to the current over
                 balls++;
                 break;
                 
             default:
+                // Handle invalid choices
                 printf("Invalid choice!\n");
                 break;
         }
@@ -112,14 +126,14 @@ int main() {
             nonStriker = temp;
         }
 
-        // Check termination conditions
+        // Check if innings is over
         if (wickets >= 10 || overs >= maxOvers) {
             printf("\nInnings Over!\n");
             break;
         }
     }
 
-    // Final score display
+    // Display final scorecard
     printf("\nFinal Scorecard:\n");
     printf("Total: %d/%d in %d.%d overs\n", totalRuns, wickets, overs, balls);
     printf("\nBatsmen:\n");
