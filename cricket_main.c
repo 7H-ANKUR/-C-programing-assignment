@@ -3,16 +3,16 @@
 
 // Define a structure for a batsman
 typedef struct {
-    int runs;
-    int isOut;
-    char name[20];
-    char dismissal[20]; // To store how the batsman got out
+    int runs;            // Runs scored by the batsman
+    int isOut;           // Flag to indicate if the batsman is out (1) or not (0)
+    char name[20];       // Name of the batsman
+    char dismissal[20];  // To store how the batsman got out (e.g., "LBW", "Catch Out")
 } Batsman;
 
 // Define a structure for a bowler
 typedef struct {
-    char name[20];
-    int oversBowled;
+    char name[20];       // Name of the bowler
+    int oversBowled;     // Number of overs bowled by the bowler
 } Bowler;
 
 int main() {
@@ -24,18 +24,19 @@ int main() {
         {0, 0, "", ""}, {0, 0, "", ""}
     };
 
-    // Initialize a bowler
+    // Initialize a bowler with default values
     Bowler currentBowler = {"", 0};
     
-    int striker = 0;     // Index of the current striker
-    int nonStriker = 1;  // Index of the current non-striker
-    int totalRuns = 0;   // Total runs scored
+    // Variables to track the game state
+    int striker = 0;     // Index of the current striker (batsman facing the ball)
+    int nonStriker = 1;  // Index of the current non-striker (batsman at the other end)
+    int totalRuns = 0;   // Total runs scored by the team
     int wickets = 0;     // Total wickets fallen
     int overs = 0;       // Total overs bowled
     int balls = 0;       // Total balls bowled in the current over
-    int nextBatsman = 2; // Index of the next batsman to come
+    int nextBatsman = 2; // Index of the next batsman to come (after a wicket falls)
     int maxOvers = 20;   // Maximum number of overs in the innings
-    int isFreeHit = 0;   // Flag to indicate if the next ball is a free hit
+    int isFreeHit = 0;   // Flag to indicate if the next ball is a free hit (1) or not (0)
 
     // Prompt the user to enter the names of the first two batsmen
     printf("Enter the name of the first batsman: ");
@@ -56,6 +57,7 @@ int main() {
     printf("___________________________________________________Cricket Score Board_________________________________________________________\n");
     printf("                                                   -------------------\n");
 
+    // Main game loop
     while(1) {
         // Display current score, overs, and bowler
         printf("\nCurrent Score: %d/%d", totalRuns, wickets);
@@ -84,6 +86,7 @@ int main() {
         // Exit the loop if user chooses to exit
         if (choice == 4) break;
 
+        // Handle user's choice
         switch(choice) {
             case 1: {
                 // Add runs to the striker's score and total runs
@@ -91,11 +94,13 @@ int main() {
                 printf("Enter runs scored (0-6): ");
                 scanf("%d", &runs);
                 
+                // Validate runs input
                 if (runs < 0 || runs > 6) {
                     printf("Invalid runs! Must be 0-6\n");
                     break;
                 }
                 
+                // Update total runs and striker's runs
                 totalRuns += runs;
                 batsmen[striker].runs += runs;
                 
@@ -106,7 +111,7 @@ int main() {
                     nonStriker = temp;
                 }
                 
-                balls++;
+                balls++; // Increment ball count
                 break;
             }
             case 2:
@@ -159,9 +164,11 @@ int main() {
                         break;
                 }
                 
+                // Mark the batsman as out and increment wickets
                 batsmen[striker].isOut = 1;
                 wickets++;
                 
+                // Bring in the next batsman if available
                 if (nextBatsman < 11) {
                     printf("Enter the name of the new batsman: ");
                     scanf("%s", batsmen[nextBatsman].name);
@@ -169,7 +176,7 @@ int main() {
                     nextBatsman++;
                 }
                 
-                balls++;
+                balls++; // Increment ball count
                 break;
                 
             case 3:
@@ -180,6 +187,7 @@ int main() {
                 int ballType;
                 scanf("%d", &ballType);
                 
+                // Handle different types of balls
                 switch(ballType) {
                     case 1:
                         // Dot Ball: No runs, ball is counted
@@ -208,9 +216,9 @@ int main() {
 
         // Update overs and rotate strike if needed
         if (balls >= 6) {
-            overs++;
-            balls = 0;
-            currentBowler.oversBowled++;
+            overs++; // Increment overs
+            balls = 0; // Reset balls in the current over
+            currentBowler.oversBowled++; // Increment overs bowled by the current bowler
 
             // Swap striker and non-striker at over completion
             int temp = striker;
@@ -225,7 +233,7 @@ int main() {
             isFreeHit = 0;
         }
 
-        // Check if innings is over
+        // Check if innings is over (all wickets fallen or max overs reached)
         if (wickets >= 10 || overs >= maxOvers) {
             printf("\nInnings Over!\n");
             break;
