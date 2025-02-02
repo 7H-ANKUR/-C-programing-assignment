@@ -35,10 +35,10 @@ int main() {
     int overs = 0;       // Total overs bowled
     int balls = 0;       // Total balls bowled in the current over
     int nextBatsman = 2; // Index of the next batsman to come (after a wicket falls)
-    int maxOvers;   // Maximum number of overs in the innings
+    int maxOvers;        // Maximum number of overs in the innings
     int isFreeHit = 0;   // Flag to indicate if the next ball is a free hit (1) or not (0)
 
-// Prompt the user to enter the maximum number of overs
+    // Prompt the user to enter the maximum number of overs
     printf("Enter the maximum number of overs: ");
     scanf("%d", &maxOvers);
 
@@ -116,6 +116,7 @@ int main() {
                 }
                 
                 balls++; // Increment ball count
+                isFreeHit = 0; // Reset free hit flag after the next ball
                 break;
             }
             case 2:
@@ -181,6 +182,7 @@ int main() {
                 }
                 
                 balls++; // Increment ball count
+                isFreeHit = 0; // Reset free hit flag after the next ball
                 break;
                 
             case 3:
@@ -196,6 +198,7 @@ int main() {
                     case 1:
                         // Dot Ball: No runs, ball is counted
                         balls++;
+                        isFreeHit = 0; // Reset free hit flag after the next ball
                         break;
                     case 2:
                         // Wide Ball: 1 run added to total, ball is not counted
@@ -204,7 +207,7 @@ int main() {
                     case 3:
                         // No Ball: 1 run added to total, ball is not counted, next ball is a free hit
                         totalRuns += 1;
-                        isFreeHit = 1;
+                        isFreeHit = 1; // Set free hit flag for the next ball
                         break;
                     default:
                         printf("Invalid choice! Ball not counted.\n");
